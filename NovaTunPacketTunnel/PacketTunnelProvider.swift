@@ -2,40 +2,43 @@ import NetworkExtension
 
 /// PacketTunnel: принимает JSON Xray-конфига из приложения и поднимает TUN.
 /// Xray-core 26.9.9 собирается в XrayMobile.xcframework на CI (см. .github/workflows/ipa.yml).
-/// Пока Swift-обёртка не связана со сгенерированным Mobile*-API, старт безопасно
-/// завершается ошибкой, чтобы iOS НЕ поднимал VPN с маршрутами в пустоту.
+/// Milestone M1: стаб безопасно завершает старт ошибкой, чтобы iOS НЕ поднимал
+/// VPN с маршрутами в пустоту. Каркас setTunnelNetworkSettings оставлен
+/// закомментированным до связывания Swift <-> сгенерированного Mobile-API (M2).
 class PacketTunnelProvider: NEPacketTunnelProvider {
 
-    override func startTunnel(options: [String : NSObject]? = nil) async throws {
+    override func startTunnel(options: [String: NSObject]? = nil, completionHandler: @escaping (Error?) -> Void) {
         guard let cfg = (protocolConfiguration as? NETunnelProviderProtocol)?.providerConfiguration,
               let json = cfg["xray-config"] as? String,
-              let name = cfg["profile-name"] as? String else {
-            throw NSError(domain: "NovaTun", code: 1, userInfo: [NSLocalizedDescriptionKey: "Нет конфига Xray"])
+              let name = cfg["profile-name"] as? String
+        else {
+            completionHandler(NSError(domain: "NovaTun", code: 1, userInfo: [NSLocalizedDescriptionKey: "Нет конфига Xray"]))
+            return
         }
-        throw NSError(domain: "NovaTun", code: 2, userInfo: [NSLocalizedDescriptionKey: "XrayMobile ещё не связан (см. README, milestone M2)"])
+        NSLog("[NovaTun] start profile=%@, xray=%@, configBytes=%d", name, XrayVersionString, json.count)
+        // M2: здесь будет MobileStartXray(json, ...) + setTunnelNetworkSettings(...)
+        completionHandler(NSError(domain: "NovaTun", code: 2, userInfo: [NSLocalizedDescriptionKey: "XrayMobile ещё не связан (см. README, milestone M2)"]))
         /*
         let settings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "127.0.0.1")
         settings.mtu = 1500
         let v4 = NEIPv4Settings(addresses: ["198.18.0.1"], subnetMasks: ["255.255.0.0"])
         v4.includedRoutes = [NEIPv4Route.default()]
-        v4.excludedRoutes = [NEIPv4Route(destinationAddress: "192.168.0.0", subnetMask: "255.255.0.0")]
         settings.iPv4Settings = v4
         settings.dnsSettings = NEDNSSettings(servers: ["1.1.1.1", "8.8.8.8"])
         settings.dnsSettings?.matchDomains = [""]
-        try await self.setTunnelNetworkSettings(settings)
-        // Запуск Xray-core 26.9.9 (линкуется как xcframework, функция XrayRun):
-        // XrayRun(configJSON: json, port: 12334)
-        NSLog("[NovaTun] start profile=\(name), xray=\(XrayVersionString), configBytes=\(json.count)")
-        _ = json
+        setTunnelNetworkSettings(settings) { _ in completionHandler(nil) }
         */
     }
 
-    override func stopTunnel(with reason: NEProviderStopReason) async {
-        // XrayStop()
+    override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
+        // M2: MobileStopXray()
         NSLog("[NovaTun] stop")
+        completionHandler()
     }
 
-    override func handleAppMessage(_ messageData: Data) async -> Data? { nil }
+    override func handleAppMessage(_ messageData: Data, completionHandler: ((Data?) -> Void)?) {
+        completionHandler?(nil)
+    }
 }
 
 let XrayVersionString = "26.9.9"

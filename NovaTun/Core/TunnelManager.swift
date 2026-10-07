@@ -42,7 +42,7 @@ final class TunnelManager: ObservableObject {
 
     func disconnect() {
         NETunnelProviderManager.loadAllFromPreferences { managers, _ in
-            managers?.forEach { try? $0.connection.stopVPNTunnel() }
+            managers?.forEach { $0.connection.stopVPNTunnel() }
         }
     }
 
