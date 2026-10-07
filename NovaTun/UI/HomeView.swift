@@ -40,6 +40,13 @@ struct HomeView: View {
                         }
                         .buttonStyle(.plain)
                         TrafficCard()
+                        Button { showAdd = true } label: {
+                            Label("Добавить сервер", systemImage: "plus.circle.fill")
+                                .fontWeight(.semibold).foregroundColor(.white)
+                                .frame(maxWidth: .infinity).padding(.vertical, 14)
+                                .background(NovaTheme.accent.opacity(0.85)).cornerRadius(16)
+                        }
+                        .buttonStyle(.plain)
                         Spacer(minLength: 8)
                     }
                     .padding(.horizontal, 20)
@@ -48,17 +55,10 @@ struct HomeView: View {
                 }
             }
             .navigationTitle("")
-            .navigationBarHidden(true)
+            .toolbar(.hidden, for: .navigationBar)
             .sheet(isPresented: $showAdd) { AddServerView().environmentObject(store) }
             .sheet(isPresented: $showSubs) { SubscriptionView().environmentObject(store) }
             .sheet(isPresented: $showSettings) { SettingsView() }
-            .toolbar {
-                ToolbarItem(placement: .bottomBar) {
-                    Button { showAdd = true } label: {
-                        Label("Добавить сервер", systemImage: "plus.circle.fill")
-                    }
-                }
-            }
         }
     }
 

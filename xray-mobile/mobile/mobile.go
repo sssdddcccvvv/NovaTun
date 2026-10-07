@@ -5,6 +5,7 @@ package mobile
 import (
 	"bytes"
 
+	_ "golang.org/x/mobile/bind"
 	"github.com/xtls/xray-core/core"
 	"github.com/xtls/xray-core/infra/conf/serial"
 	_ "github.com/xtls/xray-core/main/distro/all"

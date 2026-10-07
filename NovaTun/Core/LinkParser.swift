@@ -12,7 +12,9 @@ struct LinkParser {
     }
 
     private static func parseVLESS(_ s: String) -> ServerProfile? {
-        guard let c = URLComponents(string: s), let uuid = c.path.isEmpty ? nil : String(c.path.dropFirst()) else { return nil }
+        guard let c = URLComponents(string: s) else { return nil }
+        let pathID = c.path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+        guard let uuid = c.user ?? (pathID.isEmpty ? nil : pathID) else { return nil }
         var p = ServerProfile(name: "", proto: .vless, address: c.host ?? "", port: c.port ?? 443, uuid: uuid)
         var q: [String: String] = [:]
         c.queryItems?.forEach { q[$0.name] = $0.value ?? "" }
@@ -51,8 +53,10 @@ struct LinkParser {
 
     private static func parseTrojan(_ s: String) -> ServerProfile? {
         guard let c = URLComponents(string: s) else { return nil }
+        let pathPW = c.path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+        let pwd = c.user ?? (pathPW.isEmpty ? "" : pathPW)
         var p = ServerProfile(name: "", proto: .trojan, address: c.host ?? "", port: c.port ?? 443,
-                              password: c.path.isEmpty ? "" : String(c.path.dropFirst()))
+                              password: pwd)
         var q: [String: String] = [:]
         c.queryItems?.forEach { q[$0.name] = $0.value ?? "" }
         p.tls = true
