@@ -1,6 +1,7 @@
 import Foundation
 import NetworkExtension
 import Combine
+import Combine
 
 /// Управление PacketTunnel: вкл/выкл, статус. Bundle ID расширения — заменить на свой в Xcode.
 final class TunnelManager: ObservableObject {
@@ -12,7 +13,15 @@ final class TunnelManager: ObservableObject {
 
     var manager: NETunnelProviderManager? { nil } // доступ через loadFromPreferences в полной сборке
 
+    /// Переключить в true, когда PacketTunnel свяжется с XrayMobile.xcframework.
+    static let coreWired = false
+
     func connect(profile: ServerProfile) {
+        guard Self.coreWired else {
+            ProfileStore.shared.isConnected = false
+            ProfileStore.shared.statusText = "Ядро Xray подключается в следующей сборке"
+            return
+        }
         let configJSON = XrayConfigBuilder.jsonString(profile: profile)
         NETunnelProviderManager.loadAllFromPreferences { managers, error in
             let m = managers?.first(where: { $0.protocolConfiguration is NETunnelProviderProtocol }) ?? NETunnelProviderManager()

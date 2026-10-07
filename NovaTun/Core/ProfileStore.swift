@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import Combine
 
 /// Хранилище профилей + выбранный сервер + подписки. Персист в UserDefaults (App Group — в Xcode).
 final class ProfileStore: ObservableObject {

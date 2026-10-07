@@ -16,7 +16,7 @@ struct AddServerView: View {
                         .font(.subheadline).foregroundColor(.white.opacity(0.6))
                         .multilineTextAlignment(.center).padding(.top, 12)
                     TextEditor(text: $link)
-                        .font(.footnote.monospaced())
+                        .font(.system(.footnote, design: .monospaced))
                         .foregroundColor(.white)
                         .scrollContentBackground(.hidden)
                         .padding(12)

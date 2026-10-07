@@ -1,8 +1,9 @@
 import NetworkExtension
 
 /// PacketTunnel: принимает JSON Xray-конфига из приложения и поднимает TUN.
-/// ВАЖНО: сам бинарник Xray-core линкуется на этапе сборки (см. Scripts + README):
-/// libxray.a (xcframework) + XrayMobileFrameWork. Ниже — каркас с запуском через XrayRun.
+/// Xray-core 26.9.9 собирается в XrayMobile.xcframework на CI (см. .github/workflows/ipa.yml).
+/// Пока Swift-обёртка не связана со сгенерированным Mobile*-API, старт безопасно
+/// завершается ошибкой, чтобы iOS НЕ поднимал VPN с маршрутами в пустоту.
 class PacketTunnelProvider: NEPacketTunnelProvider {
     private var xrayHandle: AnyObject?
 
@@ -12,6 +13,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
               let name = cfg["profile-name"] as? String else {
             throw NSError(domain: "NovaTun", code: 1, userInfo: [NSLocalizedDescriptionKey: "Нет конфига Xray"])
         }
+        throw NSError(domain: "NovaTun", code: 2, userInfo: [NSLocalizedDescriptionKey: "XrayMobile ещё не связан (см. README, milestone M2)"])
         let settings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "127.0.0.1")
         settings.mtu = 1500
         let v4 = NEIPv4Settings(addresses: ["198.18.0.1"], subnetMasks: ["255.255.0.0"])

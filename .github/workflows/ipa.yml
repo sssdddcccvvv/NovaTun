@@ -10,32 +10,53 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+
       - name: Select Xcode 16
         run: sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer || true; xcodebuild -version
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+          cache: false
+
       - name: Build XrayMobile xcframework (Xray-core ${{ env.XRAY_VERSION }})
         run: |
-          brew install go gomobile 2>/dev/null || true
-          export PATH=$PATH:$(go env GOPATH)/bin
-          git clone --depth 1 --branch v${{ env.XRAY_VERSION }} https://github.com/XTLS/Xray-core.git /tmp/xray || \
-            git clone --depth 1 https://github.com/XTLS/Xray-core.git /tmp/xray
-          cd /tmp/xray
+          set -e
+          go version
           go install golang.org/x/mobile/cmd/gomobile@latest
+          export PATH="$PATH:$(go env GOPATH)/bin"
           gomobile init
-          # Собирает XrayMobile.framework для ios/arm64 + симулятор, кладёт рядом с проектом
-          mkdir -p $GITHUB_WORKSPACE/NovaTun/Frameworks
-          gomobile bind -v -target=ios -o $GITHUB_WORKSPACE/NovaTun/Frameworks/XrayMobile.xcframework ./core/mobile 2>&1 | tail -n 20 || \
-            echo "WARN: gomobile bind не удался — сборка продолжится без ядра (UI-билд для проверки)"
+          # Оригинальный Xray-core + наш wrapper поверх (gomobile требует bind-пакетов внутри main-модуля)
+          rm -rf /tmp/xray && git clone --depth 1 --branch v${{ env.XRAY_VERSION }} https://github.com/XTLS/Xray-core.git /tmp/xray
+          cp -R "$GITHUB_WORKSPACE/xray-mobile/mobile" /tmp/xray/mobile
+          cd /tmp/xray
+          go get golang.org/x/mobile@latest
+          go mod tidy
+          mkdir -p "$GITHUB_WORKSPACE/build/xray"
+          gomobile bind -v -target=ios -o "$GITHUB_WORKSPACE/build/xray/XrayMobile.xcframework" ./mobile
+
+      - name: Link XrayMobile into project
+        run: |
+          set -e
+          FW="$GITHUB_WORKSPACE/build/xray/XrayMobile.xcframework"
+          ls -la "$FW"
+          mkdir -p "$GITHUB_WORKSPACE/NovaTun/Frameworks"
+          cp -R "$FW" "$GITHUB_WORKSPACE/NovaTun/Frameworks/"
+
       - name: Archive (без подписи)
         run: |
           xcodebuild -project NovaTun.xcodeproj -scheme NovaTun -configuration Release \
             -destination 'generic/platform=iOS' \
             -archivePath build/NovaTun.xcarchive \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" archive
+
       - name: Package IPA
         run: |
           mkdir -p build/Payload
           cp -R build/NovaTun.xcarchive/Products/Applications/NovaTun.app build/Payload/
           cd build && zip -r NovaTun-sideloadly.ipa Payload
+
       - uses: actions/upload-artifact@v4
         with:
           name: NovaTun-sideloadly
