@@ -97,7 +97,7 @@ private struct HeaderRow: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
-                Text("NovaTun").font(.system(size: 26, weight: .800)).foregroundColor(.white)
+                Text("NovaTun").font(.system(size: 26, weight: .heavy)).foregroundColor(.white)
                 Text("Xray 26.9.9 · VLESS · Reality").font(.caption).foregroundColor(.white.opacity(0.5))
             }
             Spacer()
@@ -156,7 +156,7 @@ private struct SelectedServerCard: View {
         HStack(spacing: 12) {
             ZStack {
                 RoundedRectangle(cornerRadius: 12).fill(NovaTheme.accent.opacity(0.2)).frame(width: 46, height: 46)
-                Text(String(profile.proto.title.prefix(2))).fontWeight(.800).foregroundColor(NovaTheme.accent)
+                Text(String(profile.proto.title.prefix(2))).fontWeight(.heavy).foregroundColor(NovaTheme.accent)
             }
             VStack(alignment: .leading, spacing: 3) {
                 Text(profile.name).font(.headline).foregroundColor(.white).lineLimit(1)
