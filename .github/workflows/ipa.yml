@@ -7,17 +7,33 @@ env:
   XRAY_VERSION: 26.9.9
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
 
-      - name: Select Xcode 16
-        run: sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer || true; xcodebuild -version
-
-      - name: Install iOS platform
+      - name: Select Xcode with iOS SDK
         run: |
-          xcodebuild -downloadPlatform iOS || sudo xcodebuild -downloadPlatform iOS
-          xcodebuild -showdestinations || true
+          echo "Available Xcodes:"
+          ls -d /Applications/Xcode*.app 2>/dev/null || true
+          echo "--- iOS SDK check ---"
+          for X in /Applications/Xcode*.app; do
+            if [ -d "$X/Contents/Developer/Platforms/iPhoneOS.platform" ]; then
+              echo "HAS iPhoneOS.platform: $X"
+            else
+              echo "NO iPhoneOS.platform:  $X"
+            fi
+          done
+          # Новейший Xcode, у которого есть iOS-платформа; fallback — просто новейший
+          PICK=""
+          for X in $(ls -d /Applications/Xcode*.app 2>/dev/null | sort -V); do
+            if [ -d "$X/Contents/Developer/Platforms/iPhoneOS.platform" ]; then PICK="$X"; fi
+          done
+          if [ -z "$PICK" ]; then PICK="$(ls -d /Applications/Xcode*.app 2>/dev/null | sort -V | tail -n 1)"; fi
+          echo "SELECTED: $PICK"
+          sudo xcode-select -s "$PICK/Contents/Developer"
+          xcodebuild -version
+          echo "--- SDKs ---"
+          xcodebuild -showsdks 2>&1 | head -n 30 || true
 
       - name: Setup Go
         uses: actions/setup-go@v5
