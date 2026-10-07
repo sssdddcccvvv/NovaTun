@@ -1,0 +1,88 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+/* Begin PBXBuildFile section */
+		B000001 /* NovaTunApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000001 /* NovaTunApp.swift */; };
+		B000002 /* XrayVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000002 /* XrayVersion.swift */; };
+		B000003 /* ServerProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000003 /* ServerProfile.swift */; };
+		B000004 /* XrayConfigBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000004 /* XrayConfigBuilder.swift */; };
+		B000005 /* LinkParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000005 /* LinkParser.swift */; };
+		B000006 /* ProfileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000006 /* ProfileStore.swift */; };
+		B000007 /* PingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000007 /* PingService.swift */; };
+		B000008 /* TunnelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000008 /* TunnelManager.swift */; };
+		B000009 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000009 /* Theme.swift */; };
+		B000010 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000010 /* HomeView.swift */; };
+		B000011 /* ServerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000011 /* ServerListView.swift */; };
+		B000012 /* AddServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000012 /* AddServerView.swift */; };
+		B000100 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000100 /* PacketTunnelProvider.swift */; };
+		EFILE0001 /* NovaTunPacketTunnel.appex in Embed */ = {isa = PBXBuildFile; fileRef = TUNREF0001 /* NovaTunPacketTunnel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, );}; };
+/* End PBXBuildFile section */
+/* Begin PBXFileReference section */
+		F000001 /* NovaTunApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovaTunApp.swift; sourceTree = "<group>"; };
+		F000002 /* XrayVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XrayVersion.swift; sourceTree = "<group>"; };
+		F000003 /* ServerProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/ServerProfile.swift; sourceTree = "<group>"; };
+		F000004 /* XrayConfigBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/XrayConfigBuilder.swift; sourceTree = "<group>"; };
+		F000005 /* LinkParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/LinkParser.swift; sourceTree = "<group>"; };
+		F000006 /* ProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/ProfileStore.swift; sourceTree = "<group>"; };
+		F000007 /* PingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/PingService.swift; sourceTree = "<group>"; };
+		F000008 /* TunnelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/TunnelManager.swift; sourceTree = "<group>"; };
+		F000009 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Theme.swift; sourceTree = "<group>"; };
+		F000010 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/HomeView.swift; sourceTree = "<group>"; };
+		F000011 /* ServerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/ServerListView.swift; sourceTree = "<group>"; };
+		F000012 /* AddServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/AddServerView.swift; sourceTree = "<group>"; };
+		F000100 /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
+		APPREF0001 /* NovaTun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NovaTun.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		TUNREF0001 /* NovaTunPacketTunnel.appex */ = {isa = PBXFileReference; explicitFileType = wrapper.app-extension; includeInIndex = 0; path = NovaTunPacketTunnel.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		ENTREF0001 /* NovaTun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Resources/NovaTun.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+/* Begin PBXFrameworksBuildPhase section */
+		FWAPP00001 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		FWTUN00001 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+/* Begin PBXGroup section */
+		GROOT00001 = {isa = PBXGroup; children = (GAPP00001, GTUN00001, GPROD00001); sourceTree = "<group>"; };
+		GPROD00001 /* Products */ = {isa = PBXGroup; children = (APPREF0001 /* NovaTun.app */, TUNREF0001 /* NovaTunPacketTunnel.appex */); name = Products; sourceTree = "<group>"; };
+		GAPP00001 /* NovaTun */ = {isa = PBXGroup; children = (F000001, F000002, F000003, F000004, F000005, F000006, F000007, F000008, F000009, F000010, F000011, F000012, ENTREF0001); path = NovaTun; sourceTree = "<group>"; };
+		GTUN00001 /* NovaTunPacketTunnel */ = {isa = PBXGroup; children = (F000100); path = NovaTunPacketTunnel; sourceTree = "<group>"; };
+/* End PBXGroup section */
+/* Begin PBXNativeTarget section */
+		TAPP00001 /* NovaTun */ = {isa = PBXNativeTarget; buildConfigurationList = CAPP00001 /* Build configuration list NovaTun */; buildPhases = (SAPP00001 /* Sources */, FWAPP00001 /* Frameworks */, RAPP00001 /* Resources */, EAPP00001 /* Embed App Extensions */); buildRules = (); dependencies = (DAPP00001); name = NovaTun; productName = NovaTun; productReference = APPREF0001 /* NovaTun.app */; productType = "com.apple.product-type.application"; };
+		TTUN00001 /* NovaTunPacketTunnel */ = {isa = PBXNativeTarget; buildConfigurationList = CTUN00001 /* Build configuration list Tunnel */; buildPhases = (STUN00001 /* Sources */, FWTUN00001 /* Frameworks */, RTUN00001 /* Resources */); buildRules = (); dependencies = (); name = NovaTunPacketTunnel; productName = NovaTunPacketTunnel; productReference = TUNREF00001 /* NovaTunPacketTunnel.appex */; productType = "com.apple.product-type.app-extension.packet-tunnel-provider"; };
+/* End PBXNativeTarget section */
+/* Begin PBXProject section */
+		PROJ000001 /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 1600; LastUpgradeCheck = 1600; TargetAttributes = {TAPP00001 = {CreatedOnToolsVersion = 16.0;}; TTUN00001 = {CreatedOnToolsVersion = 16.0;};};}; buildConfigurationList = CPROJ00001 /* Build configuration list Project */; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base); mainGroup = GROOT00001; productRefGroup = GPROD00001 /* Products */; projectDirPath = ""; projectRoot = ""; targets = (TAPP00001 /* NovaTun */, TTUN00001 /* NovaTunPacketTunnel */); };
+/* End PBXProject section */
+/* Begin PBXResourcesBuildPhase section */
+		RAPP00001 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		RTUN00001 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+/* Begin PBXSourcesBuildPhase section */
+		SAPP00001 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (B000001, B000002, B000003, B000004, B000005, B000006, B000007, B000008, B000009, B000010, B000011, B000012); runOnlyForDeploymentPostprocessing = 0; };
+		STUN00001 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (B000100 /* PacketTunnelProvider.swift in Sources */); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXSourcesBuildPhase section */
+/* Begin PBXCopyFilesBuildPhase section */
+		EAPP00001 /* Embed App Extensions */ = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 13; files = (EFILE0001); name = "Embed App Extensions"; runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXCopyFilesBuildPhase section */
+/* Begin PBXTargetDependency section */
+		DAPP00001 /* PBXTargetDependency */ = {isa = PBXTargetDependency; target = TTUN00001 /* NovaTunPacketTunnel */; };
+/* End PBXTargetDependency section */
+/* Begin XCBuildConfiguration section */
+		CPROJD0001 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; ONLY_ACTIVE_ARCH = YES; SWIFT_VERSION = 5.0; }; name = Debug; };
+		CPROJR0001 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; SWIFT_VERSION = 5.0; }; name = Release; };
+		CAPPD00001 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = NovaTun; INFOPLIST_KEY_LSRequiresIPhoneOS = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent; INFOPLIST_KEY_NSLocalNetworkUsageDescription = "NovaTun проверяет задержку серверов в локальной сети."; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.example.NovaTun; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1; CODE_SIGN_ENTITLEMENTS = "NovaTun/Resources/NovaTun.entitlements"; }; name = Debug; };
+		CAPPR00001 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = NovaTun; INFOPLIST_KEY_LSRequiresIPhoneOS = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent; INFOPLIST_KEY_NSLocalNetworkUsageDescription = "NovaTun проверяет задержку серверов в локальной сети."; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.example.NovaTun; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1; CODE_SIGN_ENTITLEMENTS = "NovaTun/Resources/NovaTun.entitlements"; }; name = Release; };
+		CTUND00001 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_FILE = "NovaTunPacketTunnel/Info-Tunnel.plist"; GENERATE_INFOPLIST_FILE = NO; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = "com.example.NovaTun.NovaTunPacketTunnel"; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1; }; name = Debug; };
+		CTUNR00001 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_FILE = "NovaTunPacketTunnel/Info-Tunnel.plist"; GENERATE_INFOPLIST_FILE = NO; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = "com.example.NovaTun.NovaTunPacketTunnel"; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1; }; name = Release; };
+/* End XCBuildConfiguration section */
+/* Begin XCConfigurationList section */
+		CPROJ00001 /* Build configuration list Project */ = {isa = XCConfigurationList; buildConfigurations = (CPROJD0001 /* Debug */, CPROJR0001 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		CAPP00001 /* Build configuration list NovaTun */ = {isa = XCConfigurationList; buildConfigurations = (CAPPD00001 /* Debug */, CAPPR00001 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		CTUN00001 /* Build configuration list Tunnel */ = {isa = XCConfigurationList; buildConfigurations = (CTUND00001 /* Debug */, CTUNR00001 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+	};
+	rootObject = PROJ000001 /* Project object */;
+}
