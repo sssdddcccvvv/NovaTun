@@ -1,7 +1,6 @@
 import Foundation
 import NetworkExtension
 import Combine
-import Combine
 
 /// Управление PacketTunnel: вкл/выкл, статус. Bundle ID расширения — заменить на свой в Xcode.
 final class TunnelManager: ObservableObject {

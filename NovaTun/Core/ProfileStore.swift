@@ -1,6 +1,5 @@
 import Foundation
 import Combine
-import Combine
 
 /// Хранилище профилей + выбранный сервер + подписки. Персист в UserDefaults (App Group — в Xcode).
 final class ProfileStore: ObservableObject {
@@ -62,7 +61,8 @@ final class ProfileStore: ObservableObject {
 
     func updateSubscription(url: String, completion: @escaping (Int) -> Void) {
         guard let u = URL(string: url) else { completion(0); return }
-        URLSession.shared.dataTask(with: URLRequest(url: u, timeoutInterval: 20)) { data, _, _ in
+        var request = URLRequest(url: u, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 20)
+        URLSession.shared.dataTask(with: request) { data, _, _ in
             guard let data = data else { DispatchQueue.main.async { completion(0) }; return }
             var text = String(data: data, encoding: .utf8) ?? ""
             if !text.contains("://"), let d = Data(base64Encoded: text.trimmingCharacters(in: .whitespacesAndNewlines)),

@@ -5,7 +5,7 @@ struct PingService {
     static func ping(profile: ServerProfile, timeout: TimeInterval = 3.0, completion: @escaping (Int?) -> Void) {
         let t0 = Date()
         guard let url = URL(string: "https://\(profile.address):\(profile.port)/") else { completion(nil); return }
-        var req = URLRequest(url: url, timeoutInterval: timeout)
+        var req = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: timeout)
         req.httpMethod = "HEAD"
         URLSession.shared.dataTask(with: req) { _, _, _ in
             let ms = Int(Date().timeIntervalSince(t0) * 1000)

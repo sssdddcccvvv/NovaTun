@@ -5,7 +5,6 @@ import NetworkExtension
 /// Пока Swift-обёртка не связана со сгенерированным Mobile*-API, старт безопасно
 /// завершается ошибкой, чтобы iOS НЕ поднимал VPN с маршрутами в пустоту.
 class PacketTunnelProvider: NEPacketTunnelProvider {
-    private var xrayHandle: AnyObject?
 
     override func startTunnel(options: [String : NSObject]? = nil) async throws {
         guard let cfg = (protocolConfiguration as? NETunnelProviderProtocol)?.providerConfiguration,
@@ -14,6 +13,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
             throw NSError(domain: "NovaTun", code: 1, userInfo: [NSLocalizedDescriptionKey: "Нет конфига Xray"])
         }
         throw NSError(domain: "NovaTun", code: 2, userInfo: [NSLocalizedDescriptionKey: "XrayMobile ещё не связан (см. README, milestone M2)"])
+        /*
         let settings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "127.0.0.1")
         settings.mtu = 1500
         let v4 = NEIPv4Settings(addresses: ["198.18.0.1"], subnetMasks: ["255.255.0.0"])
@@ -27,6 +27,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         // XrayRun(configJSON: json, port: 12334)
         NSLog("[NovaTun] start profile=\(name), xray=\(XrayVersionString), configBytes=\(json.count)")
         _ = json
+        */
     }
 
     override func stopTunnel(with reason: NEProviderStopReason) async {
