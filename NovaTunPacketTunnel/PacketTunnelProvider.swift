@@ -1,6 +1,7 @@
 import Darwin
 import Foundation
 import NetworkExtension
+import XrayMobile
 
 /// PacketTunnel: принимает JSON Xray-конфига из приложения, находит fd utun
 /// и запускает Xray-core 26.9.9 (XrayMobile.xcframework) прямо на этом fd.
@@ -37,7 +38,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         settings.mtu = 1500
         let v4 = NEIPv4Settings(addresses: ["198.18.0.1"], subnetMasks: ["255.255.0.0"])
         v4.includedRoutes = [NEIPv4Route.default()]
-        settings.iPv4Settings = v4
+        settings.ipv4Settings = v4
         let dns = NEDNSSettings(servers: ["1.1.1.1", "8.8.8.8"])
         dns.matchDomains = [""]
         settings.dnsSettings = dns
