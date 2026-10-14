@@ -118,8 +118,3 @@ final class TunnelManager: ObservableObject {
         }
     }
 }
-
-private func errorText(_ error: Error) -> String {
-    let ns = error as NSError
-    return "\(ns.localizedDescription) [\(ns.domain)#\(ns.code)]"
-}
