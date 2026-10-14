@@ -37,6 +37,13 @@ echo "==> упаковка .ipa…"
 APP_PATH="$OUT/NovaTun.xcarchive/Products/Applications/$APP.app"
 mkdir -p "$OUT/Payload"
 cp -R "$APP_PATH" "$OUT/Payload/"
+# Вшиваем entitlements (networkextension/packet-tunnel-provider) ad-hoc подписью,
+# чтобы Sideloadly сохранил их при переподписи — иначе iOS даёт
+# "permission denied" на VPN API без диалога "Add VPN Configurations".
+ENT="NovaTun/Resources/NovaTun.entitlements"
+EXT="$OUT/Payload/$APP.app/PlugIns/NovaTunPacketTunnel.appex"
+codesign --force --timestamp=none --sign - --entitlements "$ENT" "$EXT"
+codesign --force --timestamp=none --sign - --entitlements "$ENT" "$OUT/Payload/$APP.app"
 cd "$OUT" && zip -r "NovaTun-sideloadly.ipa" Payload > /dev/null && cd ..
 echo "Готово: $IPA"
 ls -lh "$IPA"

@@ -5,3 +5,4 @@ DerivedData/
 .DS_Store
 # XrayMobile.xcframework генерируется скриптами (CI или Scripts/build-ipa.sh)
 NovaTun/Frameworks/
+ipa-out/

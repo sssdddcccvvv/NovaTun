@@ -52,7 +52,7 @@
 		GTUN00001 /* NovaTunPacketTunnel */ = {isa = PBXGroup; children = (F000100); path = NovaTunPacketTunnel; sourceTree = "<group>"; };
 /* End PBXGroup section */
 /* Begin PBXNativeTarget section */
-		TAPP00001 /* NovaTun */ = {isa = PBXNativeTarget; buildConfigurationList = CAPP00001 /* Build configuration list NovaTun */; buildPhases = (SAPP00001 /* Sources */, FWAPP00001 /* Frameworks */, RAPP00001 /* Resources */, EAPP00001 /* Embed App Extensions */); buildRules = (); dependencies = (DAPP00001); name = NovaTun; productName = NovaTun; productReference = APPREF0001 /* NovaTun.app */; productType = "com.apple.product-type.application"; };
+		TAPP00001 /* NovaTun */ = {isa = PBXNativeTarget; buildConfigurationList = CAPP00001 /* Build configuration list NovaTun */; buildPhases = (SAPP00001 /* Sources */, FWAPP00001 /* Frameworks */, RAPP00001 /* Resources */, EAPP00001 /* Embed App Extensions */, CSCP00001 /* Embed VPN entitlements (unsigned builds) */); buildRules = (); dependencies = (DAPP00001); name = NovaTun; productName = NovaTun; productReference = APPREF0001 /* NovaTun.app */; productType = "com.apple.product-type.application"; };
 		TTUN00001 /* NovaTunPacketTunnel */ = {isa = PBXNativeTarget; buildConfigurationList = CTUN00001 /* Build configuration list Tunnel */; buildPhases = (STUN00001 /* Sources */, FWTUN00001 /* Frameworks */, RTUN00001 /* Resources */); buildRules = (); dependencies = (); name = NovaTunPacketTunnel; productName = NovaTunPacketTunnel; productReference = TUNREF00001 /* NovaTunPacketTunnel.appex */; productType = "com.apple.product-type.app-extension"; };
 /* End PBXNativeTarget section */
 /* Begin PBXProject section */
@@ -62,6 +62,9 @@
 		RAPP00001 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 		RTUN00001 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXResourcesBuildPhase section */
+/* Begin PBXShellScriptBuildPhase section */
+		CSCP00001 /* Embed VPN entitlements (unsigned builds) */ = {isa = PBXShellScriptBuildPhase; alwaysOutOfDate = 1; buildActionMask = 2147483647; files = (); inputFileListPaths = (); inputPaths = (); name = "Embed VPN entitlements (unsigned builds)"; outputFileListPaths = (); outputPaths = (); runOnlyForDeploymentPostprocessing = 0; shellPath = /bin/sh; shellScript = "if [ \"${CODE_SIGNING_ALLOWED}\" = \"NO\" ] && [ -n \"${CODE_SIGN_ENTITLEMENTS}\" ] && [ -f \"${SRCROOT}/${CODE_SIGN_ENTITLEMENTS}\" ]; then\n  ENT=\"${SRCROOT}/${CODE_SIGN_ENTITLEMENTS}\"\n  APP=\"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}\"\n  EXT=\"$APP/PlugIns/NovaTunPacketTunnel.appex\"\n  echo \"note: unsigned build — embedding VPN entitlements via ad-hoc codesign (for Sideloadly re-sign)\"\n  if [ -d \"$EXT\" ]; then\n    codesign --force --sign - --entitlements \"$ENT\" \"$EXT\"\n  fi\n  codesign --force --sign - --entitlements \"$ENT\" \"$APP\"\n  codesign -d --entitlements :- \"$APP\" 2>&1 || true\nfi\n"; };
+/* End PBXShellScriptBuildPhase section */
 /* Begin PBXSourcesBuildPhase section */
 		SAPP00001 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (B000001, B000002, B000003, B000004, B000005, B000006, B000007, B000008, B000009, B000010, B000011, B000012); runOnlyForDeploymentPostprocessing = 0; };
 		STUN00001 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (B000100 /* PacketTunnelProvider.swift in Sources */); runOnlyForDeploymentPostprocessing = 0; };
