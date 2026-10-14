@@ -31,15 +31,18 @@
 cd NovaTun
 ./Scripts/build-ipa.sh   # на выходе build/NovaTun-sideloadly.ipa
 ```
+Скрипт сам соберёт `XrayMobile.xcframework` (gomobile bind поверх Xray-core 26.9.9),
+если его ещё нет в `NovaTun/Frameworks/` — для этого нужен Go (`brew install go`).
 Дальше — тот же Sideloadly.
 
 ## Важно про bundle id и VPN-права
 - В проекте Bundle ID: `com.example.NovaTun` + расширение `com.example.NovaTun.NovaTunPacketTunnel`.
   Перед установкой через Sideloadly поменяй на **свой уникальный** (например `com.tvoy-nik.novatun`),
   иначе Sideloadly может конфликтовать с чужими подписями. Места: 2 строчки
-  `PRODUCT_BUNDLE_IDENTIFIER` в `NovaTun.xcodeproj/project.pbxproj`,
-  `tunnelBundleID` в `NovaTun/Core/TunnelManager.swift`, App Group в
-  `NovaTun/Resources/NovaTun.entitlements`.
+  `PRODUCT_BUNDLE_IDENTIFIER` в `NovaTun.xcodeproj/project.pbxproj` (приложение и расширение).
+  Bundle ID расширения в коде не захардкожен — `TunnelManager` выводит его как
+  `<bundle id приложения>.NovaTunPacketTunnel`, поэтому при смене bundle ID код менять не нужно.
+  App Group — в `NovaTun/Resources/NovaTun.entitlements`.
 - VPN-entitlement (`packet-tunnel-provider`) с бесплатным Apple ID работает —
   Sideloadly пропишет профиль, на iPhone подтвердишь VPN-конфигурацию.
 - Deployment Target 17.0 — покрывает iPhone 11 / 12 / 13 Pro Max и iOS 27.
