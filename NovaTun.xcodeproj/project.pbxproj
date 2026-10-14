@@ -19,6 +19,7 @@
 		B000011 /* ServerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000011 /* ServerListView.swift */; };
 		B000012 /* AddServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000012 /* AddServerView.swift */; };
 		B000100 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F000100 /* PacketTunnelProvider.swift */; };
+		B000200 /* XrayMobile.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = F000200 /* XrayMobile.xcframework */; };
 		EFILE0001 /* NovaTunPacketTunnel.appex in Embed */ = {isa = PBXBuildFile; fileRef = TUNREF0001 /* NovaTunPacketTunnel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, );}; };
 /* End PBXBuildFile section */
 /* Begin PBXFileReference section */
@@ -35,18 +36,19 @@
 		F000011 /* ServerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/ServerListView.swift; sourceTree = "<group>"; };
 		F000012 /* AddServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/AddServerView.swift; sourceTree = "<group>"; };
 		F000100 /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
+		F000200 /* XrayMobile.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Frameworks/XrayMobile.xcframework; sourceTree = "<group>"; };
 		APPREF0001 /* NovaTun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NovaTun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		TUNREF0001 /* NovaTunPacketTunnel.appex */ = {isa = PBXFileReference; explicitFileType = wrapper.app-extension; includeInIndex = 0; path = NovaTunPacketTunnel.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		ENTREF0001 /* NovaTun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Resources/NovaTun.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 /* Begin PBXFrameworksBuildPhase section */
 		FWAPP00001 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		FWTUN00001 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		FWTUN00001 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (B000200 /* XrayMobile.xcframework in Frameworks */); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXFrameworksBuildPhase section */
 /* Begin PBXGroup section */
 		GROOT00001 = {isa = PBXGroup; children = (GAPP00001, GTUN00001, GPROD00001); sourceTree = "<group>"; };
 		GPROD00001 /* Products */ = {isa = PBXGroup; children = (APPREF0001 /* NovaTun.app */, TUNREF0001 /* NovaTunPacketTunnel.appex */); name = Products; sourceTree = "<group>"; };
-		GAPP00001 /* NovaTun */ = {isa = PBXGroup; children = (F000001, F000002, F000003, F000004, F000005, F000006, F000007, F000008, F000009, F000010, F000011, F000012, ENTREF0001); path = NovaTun; sourceTree = "<group>"; };
+		GAPP00001 /* NovaTun */ = {isa = PBXGroup; children = (F000001, F000002, F000003, F000004, F000005, F000006, F000007, F000008, F000009, F000010, F000011, F000012, F000200 /* XrayMobile.xcframework */, ENTREF0001); path = NovaTun; sourceTree = "<group>"; };
 		GTUN00001 /* NovaTunPacketTunnel */ = {isa = PBXGroup; children = (F000100); path = NovaTunPacketTunnel; sourceTree = "<group>"; };
 /* End PBXGroup section */
 /* Begin PBXNativeTarget section */
@@ -75,8 +77,8 @@
 		CPROJR0001 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; SWIFT_VERSION = 5.0; }; name = Release; };
 		CAPPD00001 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; SDKROOT = iphoneos; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = NovaTun; INFOPLIST_KEY_LSRequiresIPhoneOS = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent; INFOPLIST_KEY_NSLocalNetworkUsageDescription = "NovaTun проверяет задержку серверов в локальной сети."; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.example.NovaTun; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1; CODE_SIGN_ENTITLEMENTS = "NovaTun/Resources/NovaTun.entitlements"; }; name = Debug; };
 		CAPPR00001 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; SDKROOT = iphoneos; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = NovaTun; INFOPLIST_KEY_LSRequiresIPhoneOS = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent; INFOPLIST_KEY_NSLocalNetworkUsageDescription = "NovaTun проверяет задержку серверов в локальной сети."; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.example.NovaTun; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1; CODE_SIGN_ENTITLEMENTS = "NovaTun/Resources/NovaTun.entitlements"; }; name = Release; };
-		CTUND00001 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; SDKROOT = iphoneos; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = "NovaTunPacketTunnel/Info-Tunnel.plist"; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = "com.example.NovaTun.NovaTunPacketTunnel"; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1; }; name = Debug; };
-		CTUNR00001 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; SDKROOT = iphoneos; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = "NovaTunPacketTunnel/Info-Tunnel.plist"; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = "com.example.NovaTun.NovaTunPacketTunnel"; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1; }; name = Release; };
+		CTUND00001 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; SDKROOT = iphoneos; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = "NovaTunPacketTunnel/Info-Tunnel.plist"; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = "com.example.NovaTun.NovaTunPacketTunnel"; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1; CODE_SIGN_ENTITLEMENTS = "NovaTun/Resources/NovaTun.entitlements"; }; name = Debug; };
+		CTUNR00001 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; SDKROOT = iphoneos; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = "NovaTunPacketTunnel/Info-Tunnel.plist"; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = "com.example.NovaTun.NovaTunPacketTunnel"; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1; CODE_SIGN_ENTITLEMENTS = "NovaTun/Resources/NovaTun.entitlements"; }; name = Release; };
 /* End XCBuildConfiguration section */
 /* Begin XCConfigurationList section */
 		CPROJ00001 /* Build configuration list Project */ = {isa = XCConfigurationList; buildConfigurations = (CPROJD0001 /* Debug */, CPROJR0001 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };

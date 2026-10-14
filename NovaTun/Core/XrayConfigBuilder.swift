@@ -33,18 +33,26 @@ struct XrayConfigBuilder {
 
         let config: [String: Any] = [
             "log": ["loglevel": "warning"],
+            // TUN-инбаунд Xray-core 26.x: читает IP-пакеты напрямую с fd utun,
+            // который передаётся ядру через XRAY_TUN_FD (StartXrayFD в mobile.go).
+            // port не нужен — трафик приходит с сетевого интерфейса, а не с сокета.
             "inbounds": [[
-                "tag": "tun", "port": 12334, "protocol": "dokodemo-door",
-                "settings": ["network": "tcp,udp", "address": "0.0.0.0", "port": 0],
-                "sniffing": ["enabled": true, "destOverride": ["http", "tls", "quic"]]
+                "tag": "tun", "protocol": "tun",
+                "settings": ["name": "utun10", "mtu": 1500]
             ]],
             "outbounds": [[
                 "tag": "proxy", "protocol": outboundProto,
                 "settings": outboundSettings,
                 "streamSettings": streamSettings
             ], ["tag": "direct", "protocol": "freedom"], ["tag": "block", "protocol": "blackhole"]],
-            "routing": ["domainStrategy": "IPIfNonMatch",
-                "rules": [["type": "field", "ip": ["geoip:private"], "outboundTag": "direct"]]]
+            // Явные CIDR вместо "geoip:private": geoip.dat не входит в xcframework,
+            // и загрузка правила упала бы при старте ядра.
+            "routing": ["domainStrategy": "AsIs",
+                "rules": [["type": "field", "ip": [
+                    "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "127.0.0.0/8",
+                    "169.254.0.0/16", "224.0.0.0/4", "255.255.255.255/32",
+                    "::1/128", "fc00::/7", "fe80::/10"
+                ], "outboundTag": "direct"]]]
         ]
         return config
     }

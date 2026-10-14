@@ -2,28 +2,39 @@ import Foundation
 import NetworkExtension
 import Combine
 
-/// Управление PacketTunnel: вкл/выкл, статус. Bundle ID расширения — заменить на свой в Xcode.
+/// Управление PacketTunnel: вкл/выкл, статус.
+/// Bundle ID расширения выводится из bundle ID приложения (PRODUCT_BUNDLE_IDENTIFIER + ".NovaTunPacketTunnel"),
+/// поэтому при смене bundle ID в Xcode код менять не нужно.
 final class TunnelManager: ObservableObject {
     static let shared = TunnelManager()
-    private let tunnelBundleID = "com.example.NovaTun.NovaTunPacketTunnel"
+
     @Published var status: NEVPNStatus = .disconnected
+    @Published var lastError: String?
 
     private init() { observe() }
 
-    var manager: NETunnelProviderManager? { nil } // доступ через loadFromPreferences в полной сборке
+    /// Bundle ID PacketTunnel-расширения: приложение + суффикс из настроек target'а.
+    private var tunnelBundleID: String {
+        let appID = Bundle.main.bundleIdentifier ?? "com.example.NovaTun"
+        return appID + ".NovaTunPacketTunnel"
+    }
 
-    /// Переключить в true, когда PacketTunnel свяжется с XrayMobile.xcframework.
-    static let coreWired = false
+    /// Текущий сохранённый менеджер VPN (после connect — заполнен).
+    private(set) var manager: NETunnelProviderManager?
 
     func connect(profile: ServerProfile) {
-        guard Self.coreWired else {
-            ProfileStore.shared.isConnected = false
-            ProfileStore.shared.statusText = "Ядро Xray подключается в следующей сборке"
-            return
-        }
         let configJSON = XrayConfigBuilder.jsonString(profile: profile)
-        NETunnelProviderManager.loadAllFromPreferences { managers, error in
-            let m = managers?.first(where: { $0.protocolConfiguration is NETunnelProviderProtocol }) ?? NETunnelProviderManager()
+        lastError = nil
+        ProfileStore.shared.statusText = "Подключение…"
+
+        NETunnelProviderManager.loadAllFromPreferences { [weak self] managers, error in
+            guard let self = self else { return }
+            if let error = error {
+                self.fail("Ошибка чтения настроек VPN: \(error.localizedDescription)")
+                return
+            }
+            let m = managers?.first(where: { $0.protocolConfiguration is NETunnelProviderProtocol })
+                ?? NETunnelProviderManager()
             let proto = NETunnelProviderProtocol()
             proto.providerBundleIdentifier = self.tunnelBundleID
             proto.serverAddress = profile.displayAddress
@@ -32,24 +43,56 @@ final class TunnelManager: ObservableObject {
             m.localizedDescription = "NovaTun · \(profile.name)"
             m.isEnabled = true
             m.saveToPreferences { err in
-                guard err == nil else { return }
-                m.loadFromPreferences { _ in
-                    try? m.connection.startVPNTunnel()
+                if let err = err {
+                    self.fail("Ошибка сохранения VPN: \(self.errorText(err))")
+                    return
+                }
+                m.loadFromPreferences { loadErr in
+                    if let loadErr = loadErr {
+                        self.fail("Ошибка перезагрузки настроек: \(self.errorText(loadErr))")
+                        return
+                    }
+                    self.manager = m
+                    do {
+                        try m.connection.startVPNTunnel()
+                    } catch {
+                        self.fail("Ошибка запуска туннеля: \(self.errorText(error))")
+                    }
                 }
             }
         }
     }
 
     func disconnect() {
-        NETunnelProviderManager.loadAllFromPreferences { managers, _ in
-            managers?.forEach { $0.connection.stopVPNTunnel() }
+        if let m = manager {
+            m.connection.stopVPNTunnel()
+        } else {
+            NETunnelProviderManager.loadAllFromPreferences { managers, _ in
+                managers?.forEach { $0.connection.stopVPNTunnel() }
+            }
         }
+    }
+
+    private func fail(_ message: String) {
+        NSLog("[NovaTun] %@", message)
+        DispatchQueue.main.async {
+            self.lastError = message
+            self.status = .disconnected
+            ProfileStore.shared.isConnected = false
+            ProfileStore.shared.statusText = message
+        }
+    }
+
+    private func errorText(_ error: Error) -> String {
+        let ns = error as NSError
+        return "\(ns.localizedDescription) [\(ns.domain)#\(ns.code)]"
     }
 
     private func observe() {
         NotificationCenter.default.addObserver(forName: .NEVPNStatusDidChange, object: nil, queue: .main) { [weak self] n in
-            if let c = n.object as? NEVPNConnection { self?.status = c.status }
-            self?.syncStore()
+            guard let self = self else { return }
+            if let c = n.object as? NEVPNConnection { self.status = c.status }
+            self.syncStore()
         }
     }
 
@@ -65,10 +108,18 @@ final class TunnelManager: ObservableObject {
             case .disconnecting:
                 ProfileStore.shared.isConnected = false
                 ProfileStore.shared.statusText = "Отключение…"
+            case .invalid:
+                ProfileStore.shared.isConnected = false
+                ProfileStore.shared.statusText = self.lastError ?? "Отключено"
             default:
                 ProfileStore.shared.isConnected = false
                 ProfileStore.shared.statusText = "Отключено"
             }
         }
     }
+}
+
+private func errorText(_ error: Error) -> String {
+    let ns = error as NSError
+    return "\(ns.localizedDescription) [\(ns.domain)#\(ns.code)]"
 }
